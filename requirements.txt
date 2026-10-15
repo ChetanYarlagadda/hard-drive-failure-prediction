@@ -1,0 +1,22 @@
+# Spark needs a Java runtime (17, 21 or 25; tested with Java 25).
+pyspark==4.2.0
+pyarrow==25.0.1
+numpy==2.5.3
+pandas==2.3.3
+scipy==1.18.1
+scikit-learn==1.9.1
+lightgbm==4.7.0
+xgboost==3.4.1
+catboost==1.2.10
+optuna==5.0.0
+shap==0.53.0
+lifelines==0.30.3
+matplotlib==3.11.2
+requests==2.34.2
+mlflow==3.17.0
+pytest==9.1.1
+pyflakes==4.0.3
+jupyter==1.1.1
+nbformat==5.11.1
+nbconvert==7.17.1
+ipykernel==7.4.0

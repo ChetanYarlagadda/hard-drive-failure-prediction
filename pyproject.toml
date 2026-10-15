@@ -1,0 +1,11 @@
+[project]
+name = "hard-drive-failure-prediction"
+version = "1.0.0"
+description = "Predicting hard-drive failures from Backblaze SMART telemetry: PySpark ETL, gradient boosting with Optuna, leakage-free splits, cost-based alert thresholds, Kaplan-Meier survival and SHAP."
+requires-python = ">=3.10"
+license = "MIT"
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+filterwarnings = ["ignore::DeprecationWarning", "ignore::FutureWarning", "ignore::UserWarning"]
