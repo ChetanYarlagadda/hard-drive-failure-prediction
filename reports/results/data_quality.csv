@@ -1,0 +1,2 @@
+days,first_day,last_day,rows,failures_all_models,duplicate_serial_days,missing_serials,days_crc32_verified,compressed_gb,modelled_models,modelled_drives
+151,2025-10-01,2026-02-28,50888711,1571,0,0,151,2.013,33,341441

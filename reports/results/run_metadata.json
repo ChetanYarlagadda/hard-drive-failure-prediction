@@ -1,0 +1,107 @@
+{
+  "started_utc": "2026-10-10T11:49:06+00:00",
+  "quick": false,
+  "settings": {
+    "start": "2025-10-01",
+    "end": "2026-02-28",
+    "horizon": 30,
+    "train_start": "2025-10-31",
+    "train_end": "2025-11-30",
+    "test_start": "2025-12-31",
+    "test_end": "2026-01-30",
+    "drive_rate": 0.15,
+    "group_cuts": [
+      55,
+      70
+    ],
+    "train_neg_rate": 0.12,
+    "es_neg_rate": 0.1,
+    "trials": [
+      [
+        "LightGBM",
+        25
+      ],
+      [
+        "XGBoost",
+        15
+      ],
+      [
+        "CatBoost",
+        8
+      ]
+    ],
+    "tune_timeout_s": 150.0,
+    "seed": 0,
+    "cost_ratios": [
+      2,
+      3,
+      5,
+      10,
+      20,
+      50
+    ],
+    "main_cost_ratio": 10,
+    "n_boot": 400,
+    "n_boot_drive": 1000,
+    "shap_rows": 3000,
+    "afr_periods": [
+      [
+        "Q4 2025",
+        "2025-10-01",
+        "2025-12-31"
+      ],
+      [
+        "Jan-Feb 2026",
+        "2026-01-01",
+        "2026-02-28"
+      ],
+      [
+        "Oct 2025-Feb 2026",
+        "2025-10-01",
+        "2026-02-28"
+      ]
+    ],
+    "km_models": 8,
+    "km_min_at_risk": 1000,
+    "workers": 4,
+    "spark_memory": "4g",
+    "shuffle_partitions": 64
+  },
+  "etl_cache": "etl-5fe861205ae3",
+  "model_cache": "models-a306cf251f2f",
+  "etl_seconds": {
+    "spark_start": 9.296744499995839,
+    "daily_model_counts": 9.54410949999874,
+    "drive_table": 32.93761480000103,
+    "feature_table": 53.839615100005176
+  },
+  "timings_s": {
+    "download": 0.1,
+    "bronze_checks": 4.7,
+    "reliability": 0.9,
+    "models_cached": 0.4,
+    "evaluation": 28.6,
+    "figures": 2.7
+  },
+  "best_model": "LightGBM",
+  "shap_check": {
+    "rows": 200,
+    "max_abs_diff_vs_shap_library": 0.0
+  },
+  "versions": {
+    "python": "3.12.10",
+    "pyspark": "4.2.0",
+    "lightgbm": "4.7.0",
+    "xgboost": "3.4.1",
+    "catboost": "1.2.10",
+    "optuna": "5.0.0",
+    "lifelines": "0.30.3",
+    "sklearn": "1.9.1",
+    "pandas": "2.3.3",
+    "numpy": "2.5.3",
+    "pyarrow": "25.0.1"
+  },
+  "platform": "Windows-11-10.0.26200-SP0",
+  "cpu_threads": 2,
+  "spark_master": "local[2]"
+}

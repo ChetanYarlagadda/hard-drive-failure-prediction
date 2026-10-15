@@ -1,0 +1,7 @@
+model,cost_ratio,test_net_saving_per_10k,test_recall,test_precision,test_flagged_per_10k
+SMART rule: any critical counter > 0,2,-794.8255654,0.7287234043,0.0165993538,822.1188486
+SMART rule: any critical counter > 0,3,-781.1789237,0.7287234043,0.0165993538,822.1188486
+SMART rule: any critical counter > 0,5,-753.8856405,0.7287234043,0.0165993538,822.1188486
+SMART rule: any critical counter > 0,10,-685.6524323,0.7287234043,0.0165993538,822.1188486
+SMART rule: any critical counter > 0,20,-549.186016,0.7287234043,0.0165993538,822.1188486
+SMART rule: any critical counter > 0,50,-139.7867671,0.7287234043,0.0165993538,822.1188486

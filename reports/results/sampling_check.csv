@@ -1,0 +1,6 @@
+period,exact_drive_days,weighted_sample_estimate,relative_error_pct,group,drives,kept,failing_in_window,share_of_drives
+train,10304529,10247048,-0.5578194468,,,,,
+test,10328346,10268045,-0.5838366246,,,,,
+,,,,A,187735,28584,632,0.5498314497
+,,,,B,51025,7666,157,0.1494401668
+,,,,C,102681,15652,337,0.3007283835

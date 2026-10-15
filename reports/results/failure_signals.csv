@@ -1,0 +1,31 @@
+level,failing_drives,caught,model,by,recall
+HGST,24,0,SMART rule (critical-counter sum),manufacturer,0
+Seagate,81,0,SMART rule (critical-counter sum),manufacturer,0
+Toshiba,53,0,SMART rule (critical-counter sum),manufacturer,0
+WDC,30,0,SMART rule (critical-counter sum),manufacturer,0
+False,51,0,SMART rule (critical-counter sum),crit_any,0
+True,137,0,SMART rule (critical-counter sum),crit_any,0
+HGST,24,11,Logistic regression,manufacturer,0.4583333333
+Seagate,81,36,Logistic regression,manufacturer,0.4444444444
+Toshiba,53,6,Logistic regression,manufacturer,0.1132075472
+WDC,30,3,Logistic regression,manufacturer,0.1
+False,51,4,Logistic regression,crit_any,0.07843137255
+True,137,52,Logistic regression,crit_any,0.3795620438
+HGST,24,8,LightGBM,manufacturer,0.3333333333
+Seagate,81,40,LightGBM,manufacturer,0.4938271605
+Toshiba,53,16,LightGBM,manufacturer,0.3018867925
+WDC,30,2,LightGBM,manufacturer,0.06666666667
+False,51,8,LightGBM,crit_any,0.1568627451
+True,137,58,LightGBM,crit_any,0.4233576642
+HGST,24,10,XGBoost,manufacturer,0.4166666667
+Seagate,81,43,XGBoost,manufacturer,0.5308641975
+Toshiba,53,15,XGBoost,manufacturer,0.2830188679
+WDC,30,4,XGBoost,manufacturer,0.1333333333
+False,51,8,XGBoost,crit_any,0.1568627451
+True,137,64,XGBoost,crit_any,0.4671532847
+HGST,24,11,CatBoost,manufacturer,0.4583333333
+Seagate,81,28,CatBoost,manufacturer,0.3456790123
+Toshiba,53,9,CatBoost,manufacturer,0.1698113208
+WDC,30,0,CatBoost,manufacturer,0
+False,51,0,CatBoost,crit_any,0
+True,137,48,CatBoost,crit_any,0.3503649635
