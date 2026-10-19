@@ -1,5 +1,7 @@
 # Predicting Hard-Drive Failures from SMART Telemetry with PySpark
 
+[![CI](https://github.com/ChetanYarlagadda/hard-drive-failure-prediction/actions/workflows/ci.yml/badge.svg)](https://github.com/ChetanYarlagadda/hard-drive-failure-prediction/actions/workflows/ci.yml)
+
 **Can daily SMART telemetry flag a hard drive before it fails, well enough to justify swapping it early?** This
 project builds a PySpark pipeline over Backblaze Drive Stats (151 daily snapshots of about 330,000 drives,
 1 October 2025 to 28 February 2026, 50.9 million drive-days), predicts whether each drive fails within the next
@@ -284,6 +286,7 @@ notebooks/          analysis.ipynb, the walkthrough with every table
 data/reference/     Backblaze's published Q4 2025 table (transcribed)
 reports/            figures/ and results/ (every number quoted above)
 tests/              pytest suite (zip range reading, Spark features and labels, metrics, reliability, models)
+.github/workflows/  CI: pyflakes and pytest (including the Spark tests on Java 21) on every push
 ```
 
 ## License and citation
