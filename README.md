@@ -62,9 +62,9 @@ caught - false alarms, in swap units per 10,000 drives per month. Every model an
    the day before.
 6. **Failure rates differ up to twentyfold between drive models and rise with age.** Among models with more than
    1,000 drives, the five-month AFR ranges from 0.29% (WUH722222ALE6L4, 44,461 drives) to 6.3% (HUH728080ALE600).
-   By power-on age it is 0.5% at 1-3 years, 1.2-1.4% at 4-6 years and 2.8-4.2% at 6-8 years. The one-year failure
+   By power-on age it is 0.5-0.6% at 1-3 years, 1.2-1.4% at 4-6 years and 2.8-4.2% at 6-8 years. The one-year failure
    probability read off Kaplan-Meier curves with delayed entry is close to the five-month AFR for the largest
-   models (ST12000NM0008: 2.2% vs 2.5%; HUH721212ALE604: 2.8% vs 2.6%; largest gap WUH721816ALE6L4: 1.2% vs 0.7%).
+   models (ST12000NM0008: 2.3% vs 2.5%; HUH721212ALE604: 2.8% vs 2.6%; largest gap WUH721816ALE6L4: 1.2% vs 0.7%).
 
 ## Results
 
@@ -169,8 +169,8 @@ The Kaplan-Meier curves use delayed entry (left truncation): each drive joins th
 had on its first day in the data, so five months of observation cover ages from 0 to about 9 years. Each curve
 covers the longest age range with at least 1,000 drives at risk and is conditional on surviving to its first age
 ([`km_summary.csv`](reports/results/km_summary.csv), [`km_curves.csv`](reports/results/km_curves.csv)). Failure
-rates per drive-year by age ([`afr_by_age.csv`](reports/results/afr_by_age.csv)) are 1.0% in the first year (102
-of its 180 failures are Seagate drives, at 2.9% per drive-year), 0.5% at 1-3 years, 1.0-1.4% at 3-6 years and
+rates per drive-year by age ([`afr_by_age.csv`](reports/results/afr_by_age.csv)) are 1.1% in the first year (118
+of its 197 failures are Seagate drives, at 3.4% per drive-year), 0.5-0.6% at 1-3 years, 1.0-1.4% at 3-6 years and
 2.8-4.2% at 6-8 years. Within the same age, manufacturers differ several-fold: at 4-5 years HGST drives fail at 2.6% and Toshiba drives at 0.9%. AFRs with exact
 Poisson CIs for every model and period are in [`afr_by_model.csv`](reports/results/afr_by_model.csv).
 
@@ -224,8 +224,12 @@ if it fails in the label window. With a swap cost of 1 and a missed-failure cost
 1,000 Poisson bootstrap resamples of drives.
 
 **Reliability.** AFR = failures / (drive days / 365) x 100% with exact Poisson (Garwood) CIs. Kaplan-Meier with
-delayed entry uses lifelines on power-on years; drives whose power-on hours decrease, exceed 15 years or grow faster
-than calendar time are dropped (2,164 drives), as is ST8000DM002.
+delayed entry uses lifelines on power-on years. Backblaze's record of the failure day often has no SMART values, so
+a drive whose power-on hours are missing on only its first or only its last report gets that reading from the other
+one plus the calendar time between them (52 drives, 35 of them failures, which would otherwise be lost); drives
+whose power-on hours are still missing, decrease, exceed 15 years or grow faster than calendar time are dropped
+(2,112 drives, 2 of them failures), as is ST8000DM002
+([`survival_data_check.csv`](reports/results/survival_data_check.csv)).
 
 ## Validation and limitations
 
@@ -260,7 +264,7 @@ pip install -r requirements.txt
 python scripts/run_pipeline.py            # full run: downloads 2.0 GB once (about 5 minutes), then about 5.5 minutes on 2 CPU threads
 python scripts/run_pipeline.py --quick    # smoke test on 20 days with tiny budgets; outputs go to data/cache/smoke/
 python scripts/make_figures.py            # redraw figures from reports/results/
-pytest                                    # 21 tests, including the Spark ETL on a synthetic fleet
+pytest                                    # 22 tests, including the Spark ETL on a synthetic fleet
 ```
 
 The daily Parquet files, the Spark outputs and the model results are cached under keys that include every setting

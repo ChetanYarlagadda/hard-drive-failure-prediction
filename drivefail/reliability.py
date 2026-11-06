@@ -83,13 +83,20 @@ def crosscheck(ours: pd.DataFrame, published: pd.DataFrame) -> pd.DataFrame:
 def survival_frame(drives: pd.DataFrame, max_age_years: float = 15.0) -> tuple[pd.DataFrame, pd.DataFrame]:
     """Entry age, exit age (years of power-on time) and event flag per drive, plus the drives dropped as invalid.
 
-    A drive is kept when its power-on hours are present, non-decreasing, below ``max_age_years`` and grow by no more
-    than the calendar time it was observed (plus two days of slack).
+    Backblaze's record of a drive's failure day often has no SMART values, so dropping drives without power-on hours
+    on their last report would mostly drop failures. When only the first or only the last reading is missing, it is
+    filled from the other one and the calendar time between the two reports (the drives run around the clock), and
+    ``hours_filled`` marks the drive. A drive is kept when its power-on hours are then present, non-decreasing, below
+    ``max_age_years`` and grow by no more than the calendar time it was observed (plus two days of slack).
     """
     d = drives.copy()
+    span_days = (pd.to_datetime(d.last_date) - pd.to_datetime(d.first_date)).dt.days
+    fill_last, fill_first = d.hours_last.isna() & d.hours_first.notna(), d.hours_first.isna() & d.hours_last.notna()
+    d.loc[fill_last, "hours_last"] = (d.hours_first + 24 * span_days)[fill_last]
+    d.loc[fill_first, "hours_first"] = (d.hours_last - 24 * span_days)[fill_first]
+    d["hours_filled"] = fill_last | fill_first
     d["entry"] = d.hours_first / HOURS_PER_YEAR
     d["exit"] = d.hours_last / HOURS_PER_YEAR
-    span_days = (pd.to_datetime(d.last_date) - pd.to_datetime(d.first_date)).dt.days
     ok = (d.hours_first.notna() & d.hours_last.notna() & (d.hours_first >= 0) & (d.hours_last >= d.hours_first)
           & (d.exit < max_age_years) & ((d.hours_last - d.hours_first) <= (span_days + 2) * 24))
     d["exit"] = np.maximum(d.exit, d.entry + 1 / HOURS_PER_YEAR)  # one hour minimum so entry < exit

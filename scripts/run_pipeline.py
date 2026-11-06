@@ -217,7 +217,9 @@ def reliability_tables(S: Settings, counts: pd.DataFrame, drives: pd.DataFrame, 
     by_age = pd.concat([rel.afr_by_age(surv, edges), rel.afr_by_age(surv, edges, by="manufacturer")], ignore_index=True)
     validity = pd.DataFrame([{"drives": len(drives), "models_excluded_age_mismatch": ";".join(bad_age),
                               "drives_excluded_age_mismatch": int(drives.model.isin(bad_age).sum()),
-                              "valid_power_on_hours": len(surv), "dropped_invalid_hours": len(invalid),
+                              "valid_power_on_hours": len(surv), "filled_power_on_hours": int(surv.hours_filled.sum()),
+                              "filled_failures": int(surv.event[surv.hours_filled].sum()),
+                              "dropped_invalid_hours": len(invalid),
                               "dropped_failures": int(invalid.failed.sum()) if len(invalid) else 0}])
     return {"afr_by_model": afr, "afr_crosscheck_q4_2025": check, "afr_crosscheck_totals": totals,
             "km_curves": pd.concat(curves, ignore_index=True), "km_summary": pd.DataFrame(summary),

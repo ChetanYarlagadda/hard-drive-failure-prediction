@@ -41,6 +41,25 @@ def test_crosscheck_flags_exact_and_inexact_models() -> None:
     assert c.loc["M2", "drive_days_diff"] == 1
 
 
+def test_survival_frame_fills_one_missing_reading_and_drops_invalid_hours() -> None:
+    h = rel.HOURS_PER_YEAR
+    drives = pd.DataFrame({
+        "serial_number": ["ok", "fail_no_last", "no_first", "none", "decreasing", "too_fast", "too_old"],
+        "first_date": [date(2025, 10, 1)] * 7, "last_date": [date(2025, 10, 11)] * 7,  # 10 days = 240 hours
+        "hours_first": [1000.0, 2000.0, np.nan, np.nan, 5000.0, 1000.0, 15 * h],
+        "hours_last": [1240.0, np.nan, 3240.0, np.nan, 4000.0, 1400.0, 15 * h + 240],
+        "failed": [0, 1, 0, 0, 0, 0, 0]})
+    surv, invalid = rel.survival_frame(drives)
+    s = surv.set_index("serial_number")
+    assert list(s.index) == ["ok", "fail_no_last", "no_first"]
+    assert sorted(invalid.serial_number) == ["decreasing", "none", "too_fast", "too_old"]
+    # A failure-day record without SMART 9 keeps the failure, exiting 10 days of power-on time after entry.
+    assert s.loc["fail_no_last", "event"] == 1 and np.isclose(s.loc["fail_no_last", "exit"] * h, 2240)
+    assert np.isclose(s.loc["no_first", "entry"] * h, 3000)
+    assert s.hours_filled.tolist() == [False, True, True]
+    assert drives.hours_last.isna().sum() == 2  # the caller's table is left unchanged
+
+
 def test_kaplan_meier_with_delayed_entry_matches_hand_computation() -> None:
     # Five drives entering at different ages; failures at ages 3 and 5.
     surv = pd.DataFrame({"entry": [0.0, 1.0, 2.0, 2.5, 4.0], "exit": [3.0, 6.0, 5.0, 7.0, 8.0], "event": [1, 0, 1, 0, 0]})
